@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+  <descriptif lang="fr">
+    <titre>Paimenent Zero</titre>
+    <chapo></chapo>
+    <description>Ce plugin ajoute un nouveau mode de paiement dans le cas ou le montant total du panier est 0.</description>
+    <postscriptum></postscriptum>
+  </descriptif>
+  <version>1.0.0</version>
+  <auteur>
+    <nom>Christophe Laffont - claffont@openstudio.fr</nom>
+    <societe>OpenStudio</societe>
+    <email>claffont@openstudio.fr</email>
+    <web>http://www.openstudio.fr</web>
+  </auteur>
+  <type>paiement</type>
+  <prerequis/>
+  <thelia>1.5.0</thelia>
+  <etat>production</etat>
+  <documentation></documentation>
+  <urlmiseajour></urlmiseajour>
+</plugin>
