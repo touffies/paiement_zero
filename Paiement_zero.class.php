@@ -102,7 +102,7 @@ class Paiement_zero extends PluginsPaiements {
         $total = round($total, 2);
         $total *= 100;
 
-        if($total == 0)
+        if($total <= 0)
         {
             // On recherche l'id du module courant
             $mod = new Modules();

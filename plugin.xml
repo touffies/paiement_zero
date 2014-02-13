@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
   <descriptif lang="fr">
-    <titre>Paimenent Zero</titre>
+    <titre>Paiement Zero</titre>
     <chapo></chapo>
     <description>Ce plugin ajoute un nouveau mode de paiement dans le cas ou le montant total du panier est 0.</description>
     <postscriptum></postscriptum>
