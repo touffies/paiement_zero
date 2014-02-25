@@ -24,6 +24,9 @@
 /*                                                                                   */
 /*************************************************************************************/
 
+// On s'assure que la constante __DIR__ est définie pour les versions de PHP antérieur à 5.3
+(@__DIR__ == '__DIR__') && define('__DIR__', realpath(dirname(__FILE__)));
+
 // Classes de Thelia
 include_once __DIR__ . "/../../../classes/PluginsPaiements.class.php";
 include_once __DIR__ . "/../../../classes/Modules.class.php";
@@ -81,7 +84,7 @@ class Paiement_zero extends PluginsPaiements {
         if($exclusion != "")
             $arrExclusion = explode(",", $exclusion);
 
-        session_start();
+        //session_start();
 
         // On vérifie le total du panier
         $total = $_SESSION['navig']->panier->total();
