@@ -48,6 +48,7 @@ Exemple d'utilisation :
 CHANGELOG
 ---------
 
+- **1.0.1** (21/03/2014) - Issue #1 Problème lors de la vérification du total (TotalApresRemise < au frait de port)
 - **1.0.0** (13/02/2014) - Première version du plugin
 
 

@@ -30,6 +30,7 @@
 // Classes de Thelia
 include_once __DIR__ . "/../../../classes/PluginsPaiements.class.php";
 include_once __DIR__ . "/../../../classes/Modules.class.php";
+include_once __DIR__ . "/../../../classes/Tlog.class.php";
 
 
 /**
@@ -84,14 +85,14 @@ class Paiement_zero extends PluginsPaiements {
         if($exclusion != "")
             $arrExclusion = explode(",", $exclusion);
 
-        //session_start();
+        if (session_id() === "") { @session_start(); }
 
         // On vérifie le total du panier
         $total = $_SESSION['navig']->panier->total();
 
         // Calcul des frais de port
         $port = port();
-        if($port<0)
+        if($port < 0)
             $port = 0;
 
         // Calcul des réductions
@@ -100,12 +101,15 @@ class Paiement_zero extends PluginsPaiements {
         $remise_promo += calc_remise($total);
         $remise = $remise_promo + $remise_client;
 
-        // Total
+        // Total + Frais de Port  - Réduction
         $total = $total + $port - $remise;
-        $total = round($total, 2);
-        $total *= 100;
 
-        if($total <= 0)
+        // Sécurité : on vérifie que le total est > au frais de port
+        if($total < $port)
+            $total = $port;
+
+        // Si le total est de 0 et qu'on a au moins 1 article dans le panier
+        if($total <= 0 && $_SESSION['navig']->panier->nbart > 0)
         {
             // On recherche l'id du module courant
             $mod = new Modules();
@@ -129,21 +133,35 @@ class Paiement_zero extends PluginsPaiements {
         return $texte;
     }
 
+    /**
+     * Méthode appelée lors du paiement d'une commande
+     *
+     * @param $commande Objet de type commande
+     *
+     * @return none
+     */
     function paiement($commande)
     {
-        // Si la commande est dans le statut NON PAYE
-        if($commande->statut == "1")
-        {
+        try {
+            // Si la commande est dans le statut NON PAYE
+            if($commande->statut !== 1)
+            {
+                throw new Exception('La commande a déjà été validée . COMMANDE : ' . $commande);
+            }
+
             $commande->statut = 2;
             $commande->genfact();
-        }
-        $commande->maj();
+            $commande->maj();
 
-        ActionsModules::instance()->appel_module("confirmation", $commande);
+            ActionsModules::instance()->appel_module("confirmation", $commande);
+
+        } catch (Exception $ex) {
+            Tlog::error("Paiement_zero REQUETE: ", $_REQUEST , " - EXCEPTION : ", $ex->getMessage());
+        }
 
         $fond_succes = defined('PAYMENT_ZERO_URL_SUCCES') ? PAYMENT_ZERO_URL_SUCCES : "merci";
         header("Location: " . urlfond($fond_succes));
-
+        exit;
     }
 }
 ?>

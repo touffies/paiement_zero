@@ -6,7 +6,7 @@
     <description>Ce plugin ajoute un nouveau mode de paiement dans le cas ou le montant total du panier est 0.</description>
     <postscriptum></postscriptum>
   </descriptif>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <auteur>
     <nom>Christophe Laffont - claffont@openstudio.fr</nom>
     <societe>OpenStudio</societe>
